@@ -1,0 +1,810 @@
+<!-- ASSIGNMENT #2 - BY: Charles Byrne (Student Number: 97700266)
+  FOR CS230[A] — Web Information Processing
+  5th March 2021 -
+  -- Tested on: - Vivaldi 3.6, Chrome & Edge in Windows 10 - Perfect
+  --            - Firefox in Windows 10 & Ubuntu - Sound not perfect but works
+  --                  - Tor Browser in Windows 10 - sound doesn't work
+  --                  - Internet Exporer in Windows 10 - Doesn't work
+-->
+<HTML>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <style>
+    body {
+      background-color: white;
+      color: black;
+      user-select: none;              /* Avoid text being selected (and anoyingly hilighted) on double click */
+      -webkit-user-select: none;      /* Various browsers: Safari,Firefox, Edge/IE10 */
+      -moz-user-select: none;
+      -ms-user-select: none;
+
+    }
+
+
+    .circle {
+      display: inline-block;
+      height: 128px;
+      width: 128px;
+      position: absolute;
+      border-radius: 50%;
+      border: 2px solid rgb(8, 0, 0);
+      box-shadow: inset 0px 1.6px 0px 0px rgba(255, 255, 255, 0.342);
+    }
+
+    .circle:nth-child(1) {
+      background-color: black;
+      height: 249px;
+      width: 249px;
+      left: 110px;
+      top: 88px;
+
+    }
+
+    .circle:nth-child(n+2):nth-child(-n+5) {
+      background-color: black;
+      height: 158px;
+      width: 158px;
+      border: none;
+    }
+
+    .circle:nth-child(2) {
+      left: 29px;
+      top: 26px;
+    }
+
+    .circle:nth-child(3) {
+      left: 284px;
+      top: 26px;
+    }
+
+    .circle:nth-child(4) {
+      left: 29px;
+      top: 248px;
+    }
+
+    .circle:nth-child(5) {
+      left: 284px;
+      top: 248px;
+    }
+
+    .circle:nth-child(6),
+    .circle:nth-child(10) {
+      left: 40px;
+      top: 36px;
+      border: 4px solid #278007;
+      height: 128px;
+      width: 128px;
+      box-shadow: inset 0px 1.6px 0px 0px rgba(255, 255, 255, 0.712);
+      background: linear-gradient(to bottom, #56eb00 5%, #278007 100%);
+    }
+
+    .circle:nth-child(10):active {
+      left: 41px;
+      top: 36px;
+      width: 137;
+      height: 137;
+      border: none;
+      box-shadow: none;
+      background: black;
+      background-color: #a8e66f;
+    }
+
+    .circle:nth-child(7),
+    .circle:nth-child(11) {
+      left: 296px;
+      top: 36px;
+      border: 4px solid #5f0707;
+      height: 128px;
+      width: 128px;
+      background: linear-gradient(to bottom, #f04343 5%, #5f0707 100%);
+    }
+
+    .circle:nth-child(11):active {
+      left: 295px;
+      top: 36px;
+      width: 137;
+      height: 137;
+      border: none;
+      box-shadow: none;
+      background: black;
+      background-color: #f0a3a3;
+    }
+
+    .circle:nth-child(8),
+    .circle:nth-child(12) {
+      left: 40px;
+      top: 259px;
+      border: 4px solid #c79902;
+      height: 128px;
+      width: 128px;
+      box-shadow: inset 0px 1.6px 0px 0px rgba(255, 255, 255, 0.808);
+      background: linear-gradient(to bottom, #fbff00 5%, #c79902 100%);
+    }
+
+    .circle:nth-child(12):active {
+      left: 41px;
+      top: 259px;
+      width: 137;
+      height: 137;
+      border: none;
+      box-shadow: none;
+      background: black;
+      background-color: #fbf3b3;
+    }
+
+    .circle:nth-child(9),
+    .circle:nth-child(13) {
+      /* background-color: #38cf00;*/
+      left: 296px;
+      top: 259px;
+      border: 4px solid #023586;
+      height: 128px;
+      width: 128px;
+      background: linear-gradient(to bottom, #307efa 5%, #023586 100%);
+    }
+
+    .circle:nth-child(13):active {
+      left: 295px;
+      top: 259px;
+      width: 137;
+      height: 137;
+      border: none;
+      box-shadow: none;
+      background: black;
+      background-color: #51ffff;
+    }
+
+    .circle:nth-child(n+6):nth-child(-n+9) {
+      cursor: not-allowed;
+    }
+
+    .circle:nth-child(n+10):nth-child(-n+13) {
+      cursor: pointer;
+    }
+
+    .circle:nth-child(14) {
+      background-color: #ff0000;
+      height: 11px;
+      width: 11px;
+      left: 230px;
+      top: 248px;
+      border: none;
+      box-shadow: none;
+    }
+
+    .scoreText {
+      font-family: 'Orbitron', 'Courier New', Courier, monospace;
+      font-size: 20px;
+      font-weight: 100;
+      display: inline-block;
+      height: 33px;
+      width: 44px;
+      position: absolute;
+      border-radius: 6px;
+      align-content: center;
+      text-align: center;
+      line-height: 1.6;
+      background-color: rgb(202, 202, 202);
+      top: 197px;
+      border: 2px solid rgb(8, 0, 0);
+    }
+
+    .statText {
+      font-family: 'Orbitron', 'Courier New', Courier, monospace;
+      font-size: 20px;
+      font-weight: lighter;
+      height: 66px;
+      width: 99px;
+      position: absolute;
+
+      line-height: 1.6;
+      background: none;
+      color: black;
+      left: 186px;
+      border: none;
+      text-align: center;
+      justify-content: center;
+      display: flex;
+    }
+
+    .audioText {
+      font-family: 'Orbitron', 'Courier New', Courier, monospace;
+      font-size: 8px;
+      font-weight: 100;
+      display: inline-block;
+      height: 15px;
+      width: 80px;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      align-content: center;
+      text-align: center;
+      line-height: 1.8;
+      background: lightblue;
+      color: black;
+      border: none;
+    }
+
+    .audioText:hover {
+      background: rgb(0, 191, 255);
+      color: white;
+    }
+
+    .startStop {
+      font-family: 'Orbitron', 'Courier New', Courier, monospace;
+      font-size: 20px;
+      font-weight: 100;
+      display: inline-block;
+      height: 33px;
+      width: 93px;
+      position: absolute;
+      border-radius: 6px;
+      align-content: center;
+      text-align: center;
+      line-height: 1.6;
+      background-color: rgb(202, 202, 202);
+      top: 197px;
+      left: 187px;
+      border: 2px solid rgb(8, 0, 0);
+      cursor: pointer;
+    }
+
+    .startStop:hover {
+      background-color: yellow;
+    }
+  </style>
+
+  <script>
+
+
+    // ######################################################################
+    //        DECLARE GLOBAL VARIABLES
+    // ######################################################################
+
+    var blinker;
+    var gameStarted = false;
+    var canClick = false;
+    var blinkOn = false;
+    var curBlink = -1;
+    var blinks = 0;
+    var signal = 0;
+    var curSignal = 0;
+    var signalCount = 1;
+    var clickCount = 0;
+    var blinkArray = [];
+    var clickArray = [];
+    var highScore;
+    var lastScore;
+    var speeds_gear = 0;
+    var currentScore = 0;
+
+    var addedTimeAllowed = 0;
+
+
+    // OPTIONAL SETTINGS: #############################################
+
+    const SPEEDS = [500, 300, 200, 100];
+    const BUFFER_PAUSE_TIME = 1000;
+    const BLINK_COLS = ["a8e66f", "f0a3a3", "fbf3b3", "51ffff"];
+    const TONES = [659.25, 440, 554.37, 329.63];  // E ; A ; C# ; E (lower)
+    
+    const SAVE_LAST_SCORE_IN_LS = true; // save last score played in Local Storage
+
+
+      // MORE TIME: ####################### EG: true, 3, 3
+      const MORE_TIME_AFTER = false; // added feature to allow person to have time to respond    ## NB ##
+        const MORE_TIME_AFTER_THIS = 5; // only used if the above is set to true
+        const AFTER_EVERY = 2; // only used if the above is set to true (every n moves 1sec will be added)
+      // ##################################
+
+    var countdownClock_time = 3;
+    var secondsAllowedForMove = 5;
+    var soundEnabled = false;  // change this if you want sound on as the default
+
+    // ################################################################
+
+    var intervalSpeed = SPEEDS[0];
+    var startStopStatus = false;
+    var context = null;        // This is the variable for the AudioContext, if enabled
+
+    const IMMEDIATELY = 0;
+    const WAIT = 1;
+    const LONG_WAIT = 2;
+
+
+    // ######################################################################
+
+
+    function compareClicksWithSignals() { // compare the computer's sequence with our clicks
+
+      var i;
+      if (blinkArray.length != clickArray.length)     // must be the same length
+        return false;
+
+      for (i = 0; i < blinkArray.length; i++)         // if any different found return false
+        if (blinkArray[i] != clickArray[i])
+          return false;
+      return true;                                    // all matched, return true
+    }
+
+    function chooseBlink() {                  // Choose a random signal, # 0 - 3
+      var r;
+
+      if (curSignal > blinkArray.length) {
+        r = (Math.floor(Math.random() * 4));  // Choose 0-3
+        //r = currentScore % 4;               //-- for testing
+        //r = 1;                              //-- or this
+
+        curBlink = r;
+        blinkArray.push(curBlink);             // add signal into array
+        //console.log("SIGNAL:"+blinkArray);
+      } else {
+        curBlink = blinkArray[curSignal - 1];
+      }
+
+    } // END: function chooseBlink()
+
+    function clearVars() {
+
+      canClick = false;
+      blinkOn = false;
+      blinkOnHL = false;
+      curBlink = -1; // this is a sign that any signal can be randomly selected 0 - 3
+      blinks = 0;
+      signal = 0;
+      curSignal = 0;
+      clickCount = 0;
+      clickArray = [];
+
+    }  // END: function clearVars()
+
+    function continuePlay() {
+
+      signalCount++;    // increment signals 
+
+      clearVars();
+
+      //    Optional extra: Disabled as default, since it is not part of the spec.
+
+      if (MORE_TIME_AFTER && currentScore > MORE_TIME_AFTER_THIS && (currentScore % AFTER_EVERY == 0)) {
+        addedTimeAllowed++;
+      }
+
+      //                        SPEEDS UP IF YOU ARE ON the 5th, 9th or 13th SIGNALS
+
+      if (currentScore == 5 || currentScore == 9 || currentScore == 13) {
+        speeds_gear++;
+
+        // SHOULDN'T NEED THIS: 
+        if (speeds_gear > 3) speeds_gear = 0;
+
+        intervalSpeed = intervalSpeed = SPEEDS[speeds_gear];
+      }
+
+      // a slight pause is given to avoid the players click being confused with the computer's next sequence
+
+      start(WAIT);
+
+    } // END: function continuePlay()
+
+
+
+    function compareClicksWithSignals() {  // checks your clicks so far against the signals
+      // doesn't include length
+
+      var i;
+      var len = clickArray.length;
+      if (len > blinkArray.length)
+        len = blinkArray.length;
+
+      for (i = 0; i < len; i++)
+        if (blinkArray[i] != clickArray[i])
+          return false;
+      return true;
+    } // END: function compareClicksWithSignals()
+
+
+    function padZeros(n, z) { // pads out the scoreboard with leading zeros
+      var st = "" + n;
+
+      while (st.length < z) {
+        st = "0" + st;
+      }
+
+      return st;
+    } // END: function padZeros()
+
+
+    function showScore() {
+      document.getElementById("last_Score").textContent = padZeros(lastScore, 2);
+      document.getElementById("highScore").textContent = padZeros(highScore, 2);
+      var cs;
+      //console.log("CS:" + currentScore);
+      if (currentScore == 0)
+        cs = "";
+      else
+        cs = padZeros(currentScore, 2);
+
+      //console.log("CS:" + cs);
+      document.getElementById("current_Score").textContent = cs;
+    } // END: function showScore()
+
+
+    function mouseDown(signalNo) {
+      if (soundEnabled)
+        createSound(TONES[signalNo]);
+    } // END: function mouseDown(signalNo)
+
+
+    function clickSignal(signalNo) {
+      if (canClick) {
+
+        clickArray.push(signalNo);
+        //console.log("CLICK: " + clickArray);
+
+        clickCount++;
+
+        var sameSoFar = compareClicksWithSignals();
+
+
+        if (!sameSoFar) {     // if not same so far game over
+          statusBar("GAME OVER!");
+          hideShowButtons(false);
+          gameOver();
+        } else if (blinkArray.length == clickArray.length) {
+          // if length same and same so far --- you win this round
+          currentScore = blinkArray.length;
+          if (currentScore > highScore)
+            highScore = currentScore;
+          // save high score in localStorage ('highScore')
+          localStorage.setItem('highScore', highScore);
+          showScore();
+          statusBar("WAIT");
+          hideShowButtons(false);
+          continuePlay();
+        }
+
+      }
+
+    } // END: function clickSignal(signalNo)
+
+
+    function flashOnOrOff(curBlink) { // uses blinkOn, a global variable
+      // flashes the signal on or off
+      var circle = document.querySelector(".circle:nth-child(" + (curBlink + 6) + ")");
+
+      circle.style.background = (blinkOn) ? "black" : "";
+      circle.style.backgroundColor = (blinkOn) ? BLINK_COLS[curBlink] : "";
+
+    } // function flashOnOrOff()
+
+
+    function flashSignal() { // IMPORTANT FUNCTION: Flash the signals in a sequence
+
+      if (!blinkOn) { // TURN ON SIGNAL
+        blinkOn = true;
+        curSignal++;
+
+        // CHOOSE ANOTHER SIGNAL
+
+        chooseBlink();
+        createSound(TONES[curBlink]);
+        flashOnOrOff(curBlink);
+
+      } else {
+        blinkOn = false;
+        flashOnOrOff(curBlink); // immediately turn off signal
+        if (curSignal >= signalCount) {  // if we've moved enough ----- PLAYER'S GO: #####
+          canClick = true;
+          clearInterval(blinker);
+          statusBar("PLAY!");
+          hideShowButtons(true);
+          // start move (5 seconds = default) countdown
+          // NOTE: addedTimeAllowed only if MORE_TIME_AFTER===true
+          countdownClock_time = secondsAllowedForMove + addedTimeAllowed;
+
+          startCountdownClock();
+        }
+      }
+
+    } // END: flashSignal() function
+
+    function runBuffer() {
+      clearInterval(blinker);
+      blinker = setInterval(flashSignal, intervalSpeed);
+    }
+
+    function start(whenToStart) { // starts (or resumes) the computer's flash sequence
+
+      clearInterval(blinker); // NB: avoid overlapping intervals!
+
+      blinkOn = false;
+      gameStarted = true;
+
+      if (whenToStart === IMMEDIATELY) {
+        flashSignal(); // avoid a delay at the start
+        blinker = setInterval(flashSignal, intervalSpeed);
+      } else {
+        blinker = setInterval(runBuffer, BUFFER_PAUSE_TIME);
+        // calls the following after BUFFER_PAUSE_TIME
+        //  blinker = setInterval(flashSignal, intervalSpeed);
+      }
+
+    } // END: start() function
+
+
+    function trafficLights(lightsOn) {  // checks global variable, startStopStatus
+
+      var circle = document.querySelector(".circle:nth-child(14)");
+      circle.style.backgroundColor = (startStopStatus) ? "#4dff4d" : "red";
+
+      document.getElementById("startStopButton").textContent = (startStopStatus) ? "STOP" : "START";
+
+
+    } // END: trafficLights() function
+
+
+    function countdownClock() {
+
+      // this function is used twice:
+      // 1. At the start of a game to count down 3,2,1: Go:
+      // 2. Also, when the computer has revealed the flash sequence 
+      //    and the player has then 5 seconds to repeat the sequence.
+
+
+      if (countdownClock_time > 0) {
+        statusBar(countdownClock_time);
+      } else {
+        hideShowButtons(false);
+        if (!gameStarted)
+          statusBar("WAIT");
+        else
+          statusBar("TOO SLOW!");
+      }
+
+
+      if (countdownClock_time < 1) {
+
+        if (!gameStarted) {   // start the game
+          start(IMMEDIATELY);
+        } else {
+          gameOver();         // end the game
+        }
+      }
+
+      countdownClock_time--;
+
+    } // END: function: countdownClock()
+
+
+    function startCountdownClock() {          // this function schedules the above function
+
+      countdownClock();                               // call this function once immediately 
+      blinker = setInterval(countdownClock, 1000);    // then schedule it to be called every second
+
+    } // END: function: startCountdownClock()
+
+
+    function endOfGameFlash() { // GAME OVER: Flash all four signals 5 times 
+
+      var i;
+
+      blinkOn = !(blinkOn);
+      blinks++;
+
+      var circle;
+      for (i = 0; i < 4; i++) {
+        flashOnOrOff(i);
+      }
+
+      if (blinks > 9) {             // blinks 5 times
+
+        startStop();        //  set game to stopped
+      }
+
+    } // END: function endOfGameFlash()
+
+
+    function gameOver() {
+
+      stop();
+      blinks = 0;
+      //console.log("GAME OVER: ");
+      blinkArray = [];  // reset clicks and blinks
+
+      // flash the lights 5 times
+      // not immediately; give a half sec as the player has just made their move.
+
+      blinker = setInterval(endOfGameFlash, 500);
+
+    } // END: function gameOver()
+
+
+    function stop() {
+      gameStarted = false;
+      clearInterval(blinker);
+    } // END: function stop()
+
+    function reset_Vars() {
+      clearInterval(blinker);
+      gameStarted = false;
+      canClick = false;
+      blinkOn = false;
+      curBlink = -1;
+      blinks = 0;
+      intervalSpeed = SPEEDS[0];
+      speeds_gear = 0;
+      signal = 0;
+      countdownClock_time = 3;
+      curSignal = 0;
+      signalCount = 1;
+      clickCount = 0;
+      blinkArray = [];
+      clickArray = [];
+      currentScore = 0;
+      addedTimeAllowed = 0;
+    }
+
+    function restartGame() { // reset the variables and start the 3,2,1 countdown timer:
+      reset_Vars();
+      startCountdownClock();
+    }
+
+    function statusBar(statText) {
+      document.getElementById("statBar").textContent = statText;
+    }
+
+    function audioOnOff() {
+      document.getElementById("audioOnOff").textContent = (soundEnabled) ? "Audio - on" : "Audio - off";
+    }
+
+    function setAudionOnOff() {
+
+      if (!soundEnabled && context === null) {
+        context = new AudioContext();         // set this for the first time
+        //console.log("CONTEXT SET");
+      }
+
+      soundEnabled = !soundEnabled;
+      //console.log(soundEnabled);
+      audioOnOff();
+    }
+
+    function turnAllSignalsOff() {
+      curBlink = false;
+      for (var i = 0; i < 4; i++) {
+        flashOnOrOff(i);
+      }
+    } // END: turnAllSignalsOff()
+
+
+    function startStop() {
+
+      startStopStatus = !startStopStatus;  // invert the status
+      trafficLights();
+
+      if (startStopStatus) {                // if game now started
+        startCountdownClock();
+      } else {
+
+        lastScore = currentScore;
+
+        if (SAVE_LAST_SCORE_IN_LS) {          // save last score in Local Storage, if that's wanted
+          localStorage.setItem('lastScore', lastScore);
+        }
+
+        currentScore = 0;
+        //console.log("END GAME " + lastScore);
+        showScore();
+
+
+        statusBar("");
+        hideShowButtons(false);
+        reset_Vars();
+        turnAllSignalsOff();
+        //stop();
+      }
+
+    }
+
+    function hideShowButtons(show_Buttons) {
+      var blockOrNone = (show_Buttons) ? "block" : "none";
+      var i;
+
+      for (i = 10; i < 14; i++)
+        document.querySelector(".circle:nth-child(" + i + ")").style.display = blockOrNone;
+
+    }
+
+
+    function createSound(requiredTone) {
+
+      if (soundEnabled) {
+
+        // firefox doesn't seem to play the fade, and results in an anoying click
+        // Chrome, Edge and Vivaldi work well. 
+
+        var oscillator = context.createOscillator();
+        oscillator.type = 'sine';
+        var gain = context.createGain();
+        oscillator.connect(gain);
+        gain.connect(context.destination);
+        gain.gain.exponentialRampToValueAtTime(0.00001, context.currentTime + 0.7);
+
+        oscillator.frequency.value = requiredTone;
+        oscillator.start(0);
+
+      } // END: if (soundEnabled)
+
+    } // END: function createSound()
+
+
+    function onLoadFunction() {
+
+      if (soundEnabled && context === null) {
+        context = new AudioContext();         // set this for the first time
+        //console.log("CONTEXT SET");
+      }
+
+      audioOnOff();
+      hideShowButtons(false);
+      highScore = localStorage.getItem('highScore');
+
+      if (highScore == null) { // if no var is set in localStorage 
+        highScore = 0;
+        localStorage.setItem('highScore', 0);
+      }
+
+
+      // Im not sure if this was required in the spec: Score of Last Game Saved in Local Storage
+      // --- to disable, change SAVE_LAST_SCORE_IN_LS (above) to false
+
+      if (SAVE_LAST_SCORE_IN_LS) {
+        lastScore = localStorage.getItem('lastScore');
+        if (lastScore == null) {  // if no var is set in localStorage 
+          lastScore = 0;
+          localStorage.setItem('lastScore', 0);
+        }
+
+      } else {
+        lastScore = 0;
+      }
+
+      showScore();
+
+    } // function onLoadFunction()
+
+  </script>
+
+
+</head>
+
+<body onload="onLoadFunction();">
+  <div style="position:absolute; top: 0; left: 0;">
+
+    <span class="circle" id="cir"></span>
+    <span class="circle"></span>
+    <span class="circle"></span>
+    <span class="circle"></span>
+    <span class="circle"></span>
+    <span class="circle"></span>
+    <span class="circle"></span>
+    <span class="circle"></span>
+    <span class="circle"></span>
+    <span class="circle" onclick="clickSignal(0);" onmousedown="mouseDown(0);"></span>
+    <span class="circle" onclick="clickSignal(1);" onmousedown="mouseDown(1);"></span>
+    <span class="circle" onclick="clickSignal(2);" onmousedown="mouseDown(2);"></span>
+    <span class="circle" onclick="clickSignal(3);" onmousedown="mouseDown(3);"></span>
+    <span class="circle"></span>
+    <span class="scoreText" style="left:138px;" id="highScore"></span>
+    <span class="scoreText" style="left:285px;" id="last_Score"></span>
+
+    <span class="startStop" id="startStopButton" onclick="startStop();">START</span>
+    <span class="statText" id="statBar" style="top:19; align-items:flex-end;"></span>
+    <span class="statText" style="top:343;" id="current_Score"></span>
+    <span class="audioText" id="audioOnOff" onclick="setAudionOnOff();"></span>
+  </div>
+</body>
+
+</HTML>
